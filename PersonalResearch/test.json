@@ -1,0 +1,6 @@
+{
+    "string_test": "Hello World",
+    "int_test": 1,
+    "date_test": "12-25-2026",
+    "float_test": 2.5
+}
