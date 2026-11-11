@@ -1,5 +1,4 @@
 #include "./JsonIO.h"
-#include "./JsonParser.h"
 
 JsonIO::JsonIO() : filePath("HelloWorld.txt") {}
 
@@ -9,17 +8,22 @@ JsonIO::JsonIO(std::string path) {
 
 JsonObject JsonIO::ReadFile() {
     std::ifstream file(this->filePath);
-    JsonParser parser;
-    JsonObject object;
+    std::vector<std::string> lines;
     std::string line;
-
+    int index;
+    JsonObject object;
+    
     if(!file.is_open()) {
         std::cerr << "Error: Cannot openfile to read \n";
         return object;
     }
 
+    while(std::getline(file, line))
+        lines.push_back(line);  
     
+    JsonParser parser(lines);
 
+    object = parser.Parse(index);
     file.close();
     return object;
 }
@@ -45,6 +49,6 @@ int main(int argc, char** argv) {
 
     JsonIO test1("test.json");
     JsonObject contents = test1.ReadFile();
-
+    contents.Print();
     return 0;
 }

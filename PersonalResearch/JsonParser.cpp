@@ -14,6 +14,7 @@ JsonParser::JsonParser(std::vector<std::string> lines) {
 }
 
 JsonObject JsonParser::Parse(int &index) {
+    std::cout << "parsing at index: " << index << std::endl;
     if(index == 0 && this->contents[0] != '{') {
         throw std::runtime_error("File not formatted correctly");
     }
@@ -26,16 +27,20 @@ JsonObject JsonParser::Parse(int &index) {
         char current = this->contents.at(index);
         switch (current) {
             case '{':
+                std::cout << "We hit {" << std::endl;
                 object.SetValue(key, Parse(index));
                 break;
             case '"':
+                std::cout << "we hit \"" << std::endl;
                 if(isKeyString) key = this->ParseString(index);
                 else object.SetValue(key, STRING, this->ParseString(index));
                 break;
             case ':':
+                std::cout << "we hit :" << std::endl;
                 isKeyString = false;
                 break;
             case ',':
+                std::cout << "we hit ," << std::endl;
                 isKeyString = true;
                 break;
             case '}':
